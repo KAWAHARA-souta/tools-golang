@@ -87,6 +87,8 @@ func (d DocElementID) MarshalJSON() ([]byte, error) {
 	if d.DocumentRefID != "" && d.ElementRefID != "" {
 		idStr := prefixElementId(d.ElementRefID)
 		return marshal.JSON(fmt.Sprintf("%s%s:%s", documentRefPrefix, d.DocumentRefID, idStr))
+  } else if d.DocumentRefID != "" {
+		return marshal.JSON(fmt.Sprintf("%s%s", documentRefPrefix, d.DocumentRefID))
 	} else if d.ElementRefID != "" {
 		return marshal.JSON(prefixElementId(d.ElementRefID))
 	} else if d.SpecialID != "" {

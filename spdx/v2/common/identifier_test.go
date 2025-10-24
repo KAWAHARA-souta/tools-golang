@@ -39,7 +39,7 @@ func Test_DocElementIDEncoding(t *testing.T) {
 			value: DocElementID{
 				DocumentRefID: "a-doc",
 			},
-			err: true,
+			expected: "DocumentRef-a-doc",
 		},
 		{
 			name: "SpecialID",
