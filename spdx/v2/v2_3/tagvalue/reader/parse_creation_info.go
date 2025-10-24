@@ -145,15 +145,5 @@ func extractExternalDocumentReference(value string) (string, string, string, str
 		return "", "", "", "", fmt.Errorf("expected 4 elements, got %d", len(keepSp))
 	}
 
-	// additionally, we should be able to parse the first element as a
-	// DocumentRef- ID string, and we should remove that prefix
-	if !strings.HasPrefix(documentRefID, "DocumentRef-") {
-		return "", "", "", "", fmt.Errorf("expected first element to have DocumentRef- prefix")
-	}
-	documentRefID = strings.TrimPrefix(documentRefID, "DocumentRef-")
-	if documentRefID == "" {
-		return "", "", "", "", fmt.Errorf("document identifier has nothing after prefix")
-	}
-
 	return documentRefID, uri, alg, checksum, nil
 }

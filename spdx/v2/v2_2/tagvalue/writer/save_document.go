@@ -42,7 +42,7 @@ func RenderDocument(doc *spdx.Document, w io.Writer) error {
 		return doc.ExternalDocumentReferences[i].DocumentRefID < doc.ExternalDocumentReferences[j].DocumentRefID
 	})
 	for _, edr := range doc.ExternalDocumentReferences {
-		fmt.Fprintf(w, "ExternalDocumentRef: DocumentRef-%s %s %s:%s\n",
+		fmt.Fprintf(w, "ExternalDocumentRef: %s %s %s:%s\n",
 			edr.DocumentRefID, edr.URI, edr.Checksum.Algorithm, edr.Checksum.Value)
 	}
 	if doc.DocumentComment != "" {
