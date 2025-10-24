@@ -81,30 +81,31 @@ type DocElementID struct {
 	SpecialID     string
 }
 
+func (d DocElementID) String() string {
+	if d.DocumentRefID != "" && d.ElementRefID != "" {
+		idStr := prefixElementId(d.ElementRefID)
+		return fmt.Sprintf("%s%s:%s", documentRefPrefix, d.DocumentRefID, idStr)
+  } else if d.DocumentRefID != "" {
+		return fmt.Sprintf("%s%s", documentRefPrefix, d.DocumentRefID)
+	} else if d.ElementRefID != "" {
+		return prefixElementId(d.ElementRefID)
+	} else if d.SpecialID != "" {
+		return d.SpecialID
+	}
+	return ""
+}
+
 // MarshalJSON converts the receiver into a slice of bytes representing a DocElementID in string form.
 // This function is also used when marshalling to YAML
 func (d DocElementID) MarshalJSON() ([]byte, error) {
-	if d.DocumentRefID != "" && d.ElementRefID != "" {
-		idStr := prefixElementId(d.ElementRefID)
-		return marshal.JSON(fmt.Sprintf("%s%s:%s", documentRefPrefix, d.DocumentRefID, idStr))
-  } else if d.DocumentRefID != "" {
-		return marshal.JSON(fmt.Sprintf("%s%s", documentRefPrefix, d.DocumentRefID))
-	} else if d.ElementRefID != "" {
-		return marshal.JSON(prefixElementId(d.ElementRefID))
-	} else if d.SpecialID != "" {
-		return marshal.JSON(d.SpecialID)
+	ret := d.String()
+	if ret != "" {
+		return marshal.JSON(ret)
 	}
-
 	return []byte{}, fmt.Errorf("failed to marshal empty DocElementID")
 }
 
-// UnmarshalJSON takes a SPDX Identifier string parses it into a DocElementID struct.
-// This function is also used when unmarshalling YAML
-func (d *DocElementID) UnmarshalJSON(data []byte) (err error) {
-	// SPDX identifier will simply be a string
-	idStr := string(data)
-	idStr = strings.Trim(idStr, "\"")
-
+func (d *DocElementID) Parse(idStr string) (err error) {
 	// handle special cases
 	if idStr == "NONE" || idStr == "NOASSERTION" {
 		d.SpecialID = idStr
@@ -131,6 +132,16 @@ func (d *DocElementID) UnmarshalJSON(data []byte) (err error) {
 
 	d.ElementRefID, err = trimElementIdPrefix(idStr)
 	return err
+}
+
+// UnmarshalJSON takes a SPDX Identifier string parses it into a DocElementID struct.
+// This function is also used when unmarshalling YAML
+func (d *DocElementID) UnmarshalJSON(data []byte) (err error) {
+	// SPDX identifier will simply be a string
+	idStr := string(data)
+	idStr = strings.Trim(idStr, "\"")
+
+	return d.Parse(idStr)
 }
 
 // TODO: add equivalents for LicenseRef- identifiers

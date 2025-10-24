@@ -103,7 +103,7 @@ func (parser *tvParser) parsePairFromCreationInfo(tag string, value string) erro
 
 // ===== Helper functions =====
 
-func extractExternalDocumentReference(value string) (string, string, string, string, error) {
+func extractExternalDocumentReference(value string) (common.DocElementID, string, string, string, error) {
 	sp := strings.Split(value, " ")
 	// remove any that are just whitespace
 	keepSp := []string{}
@@ -114,6 +114,7 @@ func extractExternalDocumentReference(value string) (string, string, string, str
 		}
 	}
 
+	docElementID := common.DocElementID{}
 	var documentRefID, uri, alg, checksum string
 
 	// now, should have 4 items (or 3, if Alg and Checksum were joined)
@@ -124,7 +125,7 @@ func extractExternalDocumentReference(value string) (string, string, string, str
 		alg = keepSp[2]
 		// check that colon is present for alg, and remove it
 		if !strings.HasSuffix(alg, ":") {
-			return "", "", "", "", fmt.Errorf("algorithm does not end with colon")
+			return docElementID, "", "", "", fmt.Errorf("algorithm does not end with colon")
 		}
 		alg = strings.TrimSuffix(alg, ":")
 		checksum = keepSp[3]
@@ -134,13 +135,17 @@ func extractExternalDocumentReference(value string) (string, string, string, str
 		// split on colon into alg and checksum
 		parts := strings.SplitN(keepSp[2], ":", 2)
 		if len(parts) != 2 {
-			return "", "", "", "", fmt.Errorf("missing colon separator between algorithm and checksum")
+			return docElementID, "", "", "", fmt.Errorf("missing colon separator between algorithm and checksum")
 		}
 		alg = parts[0]
 		checksum = parts[1]
 	} else {
-		return "", "", "", "", fmt.Errorf("expected 4 elements, got %d", len(keepSp))
+		return docElementID, "", "", "", fmt.Errorf("expected 4 elements, got %d", len(keepSp))
 	}
 
-	return documentRefID, uri, alg, checksum, nil
+	err := docElementID.Parse(documentRefID)
+	if err != nil {
+		return docElementID, "", "", "", err
+	}
+	return docElementID, uri, alg, checksum, nil
 }

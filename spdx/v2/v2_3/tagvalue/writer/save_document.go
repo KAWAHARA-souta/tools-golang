@@ -38,7 +38,7 @@ func RenderDocument(doc *spdx.Document, w io.Writer) error {
 	}
 	// print EDRs in order sorted by identifier
 	sort.Slice(doc.ExternalDocumentReferences, func(i, j int) bool {
-		return doc.ExternalDocumentReferences[i].DocumentRefID < doc.ExternalDocumentReferences[j].DocumentRefID
+		return doc.ExternalDocumentReferences[i].DocumentRefID.DocumentRefID < doc.ExternalDocumentReferences[j].DocumentRefID.DocumentRefID
 	})
 	for _, edr := range doc.ExternalDocumentReferences {
 		fmt.Fprintf(w, "ExternalDocumentRef: %s %s %s:%s\n",
