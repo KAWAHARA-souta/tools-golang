@@ -96,7 +96,10 @@ func (parser *rdfParser2_2) getExternalDocumentRefFromNode(node *gordfParser.Nod
 		switch triple.Predicate.ID {
 		case SPDX_EXTERNAL_DOCUMENT_ID:
 			// cardinality: exactly 1
-			edr.DocumentRefID = triple.Object.ID
+			err := edr.DocumentRefID.Parse(triple.Object.ID)
+			if err != nil {
+				return edr, err
+			}
 		case SPDX_SPDX_DOCUMENT:
 			// cardinality: exactly 1
 			// assumption: "spdxDocument" property of an external document

@@ -80,7 +80,7 @@ func Test_ConvertSPDXDocuments(t *testing.T) {
 				DocumentNamespace: "doc namespace",
 				ExternalDocumentReferences: []v2_1.ExternalDocumentRef{
 					{
-						DocumentRefID: "doc ref id 1",
+						DocumentRefID: common.MakeDocElementID("", "doc ref id 1"),
 						URI:           "uri 1",
 						Checksum: common.Checksum{
 							Algorithm: "algo 1",
@@ -88,7 +88,7 @@ func Test_ConvertSPDXDocuments(t *testing.T) {
 						},
 					},
 					{
-						DocumentRefID: "doc ref id 2",
+						DocumentRefID: common.MakeDocElementID("", "doc ref id 2"),
 						URI:           "uri 2",
 						Checksum: common.Checksum{
 							Algorithm: "algo 2",
@@ -583,7 +583,7 @@ func Test_ConvertSPDXDocuments(t *testing.T) {
 				DocumentNamespace: "doc namespace",
 				ExternalDocumentReferences: []spdx.ExternalDocumentRef{
 					{
-						DocumentRefID: "doc ref id 1",
+						DocumentRefID: common.MakeDocElementID("", "doc ref id 1"),
 						URI:           "uri 1",
 						Checksum: common.Checksum{
 							Algorithm: "algo 1",
@@ -591,7 +591,7 @@ func Test_ConvertSPDXDocuments(t *testing.T) {
 						},
 					},
 					{
-						DocumentRefID: "doc ref id 2",
+						DocumentRefID: common.MakeDocElementID("", "doc ref id 2"),
 						URI:           "uri 2",
 						Checksum: common.Checksum{
 							Algorithm: "algo 2",
@@ -1090,7 +1090,7 @@ func Test_ConvertSPDXDocuments(t *testing.T) {
 				DocumentNamespace: "doc namespace",
 				ExternalDocumentReferences: []v2_2.ExternalDocumentRef{
 					{
-						DocumentRefID: "doc ref id 1",
+						DocumentRefID: common.MakeDocElementID("", "doc ref id 1"),
 						URI:           "uri 1",
 						Checksum: common.Checksum{
 							Algorithm: "algo 1",
@@ -1098,7 +1098,7 @@ func Test_ConvertSPDXDocuments(t *testing.T) {
 						},
 					},
 					{
-						DocumentRefID: "doc ref id 2",
+						DocumentRefID: common.MakeDocElementID("", "doc ref id 2"),
 						URI:           "uri 2",
 						Checksum: common.Checksum{
 							Algorithm: "algo 2",
@@ -1602,7 +1602,7 @@ func Test_ConvertSPDXDocuments(t *testing.T) {
 				DocumentNamespace: "doc namespace",
 				ExternalDocumentReferences: []spdx.ExternalDocumentRef{
 					{
-						DocumentRefID: "doc ref id 1",
+						DocumentRefID: common.MakeDocElementID("", "doc ref id 1"),
 						URI:           "uri 1",
 						Checksum: common.Checksum{
 							Algorithm: "algo 1",
@@ -1610,7 +1610,7 @@ func Test_ConvertSPDXDocuments(t *testing.T) {
 						},
 					},
 					{
-						DocumentRefID: "doc ref id 2",
+						DocumentRefID: common.MakeDocElementID("", "doc ref id 2"),
 						URI:           "uri 2",
 						Checksum: common.Checksum{
 							Algorithm: "algo 2",
